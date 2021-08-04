@@ -36,4 +36,4 @@ const e={LIGHT:"light-theme",DARK:"dark-theme"},t=document.querySelector(".js-me
 },{}],"Focm":[function(require,module,exports) {
 "use strict";require("./sass/main.scss"),require("./js/main.js"),require("./js/switch.js"),require("./js/apiService.js"),require("./js/notification.js");
 },{"./sass/main.scss":"clu1","./js/main.js":"d6sW","./js/switch.js":"dF6L","./js/apiService.js":"eQwa","./js/notification.js":"clu1"}]},{},["Focm"], null)
-//# sourceMappingURL=/goit-js-hw-13-image-finder/src.7b7112c9.js.map
+//# sourceMappingURL=/goit-js-hw-13-image-finder/src.68dce63a.js.map
