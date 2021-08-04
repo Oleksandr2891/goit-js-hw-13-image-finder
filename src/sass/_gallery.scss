@@ -1,5 +1,5 @@
 .wrapper-gallery {
-width: 1500px;
+width: 1280px;
 margin: 50px auto;
 
 }
@@ -21,10 +21,10 @@ margin: 50px auto;
     margin-top: 30px;
     border: 2px solid #530c0c;
 
-    flex-basis: calc((100% - 30px * 3)/ 3 );
+    // flex-basis: calc((100% - 30px * 3)/ 3 );
 
     img {
-        max-width: 460px;
+        max-width: 388px;
     };
 
     .stats {
