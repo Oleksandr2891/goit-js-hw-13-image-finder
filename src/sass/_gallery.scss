@@ -9,6 +9,7 @@ margin: 50px auto;
   flex-wrap: wrap;
   margin-left: -30px;
   margin-top: -30px;
+  padding: 0;
 
     li{
         list-style: none;
@@ -20,11 +21,12 @@ margin: 50px auto;
     margin-left: 30px;
     margin-top: 30px;
     border: 2px solid #530c0c;
+    border-style: inset;
 
-    // flex-basis: calc((100% - 30px * 3)/ 3 );
+    flex-basis: calc((100% - 30px * 3)/ 3 );
 
     img {
-        max-width: 388px;
+        max-width: 402px;
     };
 
     .stats {

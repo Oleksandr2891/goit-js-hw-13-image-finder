@@ -1,32 +1,41 @@
 import photoCards from "../tmp/photo-card.hbs";
 import _ from "lodash";
 import ImageApiService from "./apiService.js";
-// import { defaultModules } from '@pnotify/core/dist/PNotify.js';
 import '@pnotify/core/dist/PNotify.css';
 import { defaults } from '@pnotify/core';
-import '@pnotify/core/dist/Material.css';
-import 'material-design-icons/iconfont/material-icons.css';
-import { alert, notice, info, success, error } from '@pnotify/core';
-// import * as PNotifyFontAwesome4 from '@pnotify/font-awesome4';
-// import '@pnotify/bootstrap4/dist/PNotifyBootstrap4.css';
-// defaultModules.set(PNotifyFontAwesome4, {});
+// import '@pnotify/core/dist/BrightTheme.css'
+// import '@pnotify/core/dist/Material.css';
+// import 'material-design-icons/iconfont/material-icons.css';
+import { success, error } from '@pnotify/core';
+import * as basicLightbox from 'basiclightbox';
+import "basiclightbox/src/styles/main.scss";
 
-
-defaults.styling = 'material';
-defaults.icons = 'material';
-defaults.delay = 2000;
-defaults.stack.firstpos1 = 10;
-defaults.stack.firstpos2 = 300;
-defaults.stack.dir1 = "down";
-
-
+// defaults.styling = 'brighttheme';
+// defaults.icons = 'brighttheme';
+defaults.delay = 3000;
+defaults.stack.firstpos1 = 600;
+defaults.stack.firstpos2 = 80;
+// defaults.addClass = 'btn-danger';
 console.log(defaults);
+// defaults.stack.dir1 = "down";
 
 const input = document.querySelector('#search');
 const imageApiService = new ImageApiService();
 const observer = new IntersectionObserver(onEntry);
+const galleryWrapper = document.querySelector(".gallery");
 
 input.addEventListener('input', _.debounce(onInputSearch, 700));
+
+galleryWrapper.addEventListener("click", event => {
+    if (event.target.tagName !== "IMG") return false;
+    const link = event.target.dataset.link;
+
+    const instance = basicLightbox.create(`<img src=${link} width="800" height="600" />`);
+
+    instance.show();
+
+
+})
 
 const markup = (item) => {
     let counter = 0;
@@ -48,10 +57,7 @@ async function onInputSearch(event) {
         try {
 
             imageApiService.query = event.target.value;
-            const galleryOfItems = await imageApiService.featchImage();
-            markup(galleryOfItems.hits);
-            const lastElementView = document.querySelector(".gallery").lastElementChild;
-            observer.observe(lastElementView);
+            await renderGallary();
             success({
                 text: "Your request was completed successfully!!!"
             });
@@ -61,6 +67,7 @@ async function onInputSearch(event) {
                 text: "Nothing was found by your request!!!"
             });
         }
+
     }
     return;
 };
@@ -70,10 +77,7 @@ async function onEntry(entries, observer) {
         if (!entry.isIntersecting) return false;
         try {
             observer.unobserve(entry.target);
-            const galleryOfItems = await imageApiService.featchImage();
-            markup(galleryOfItems.hits);
-            const lastElementView = document.querySelector(".gallery").lastElementChild;
-            observer.observe(lastElementView);
+            await renderGallary();
         } catch {
             error({
                 text: "Nothing was found by your request!!!"
@@ -84,4 +88,8 @@ async function onEntry(entries, observer) {
 };
 
 
-
+async function renderGallary() {
+    const galleryOfItems = await imageApiService.featchImage();
+    markup(galleryOfItems.hits);
+    observer.observe(galleryWrapper.lastElementChild);
+};
